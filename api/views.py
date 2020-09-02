@@ -1,10 +1,10 @@
 
-from rest_framework.views import APIView
-from rest_framework.response import Response
+from rest_framework import generics
+
+from .serializers import StudentSerializer
 
 
-class SampleView(APIView):
-    """Temporary view pending project takeoff"""
+class StudentRegistrationView(generics.CreateAPIView):
+    """Endpoint for registering Student users"""
 
-    def get(self, request):
-        return Response({"message": "Hello, World!"})
+    serializer_class = StudentSerializer
