@@ -7,9 +7,17 @@ from .models import Student
 
 
 class UserSerializer(serializers.ModelSerializer):
+
     """Serializer for User model"""
 
     class Meta:
+
+        """
+        Meta-data for serializer class:
+        model - Database Model to serialize
+        fields - Fields we want to serialize in the model
+        """
+
         model = User
         fields = ["id", "username", "email", "password"]
         extra_kwargs = {"password": {"write_only": True}}
@@ -25,6 +33,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
+
     """Serializer for Student model"""
 
     user = UserSerializer(required=True)
