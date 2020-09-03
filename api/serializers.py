@@ -11,8 +11,8 @@ class UserSerializer(serializers.ModelSerializer):
     """Serializer for User model"""
 
     class Meta:
-
         """
+
         Meta-data for serializer class:
         model - Database Model to serialize
         fields - Fields we want to serialize in the model
@@ -39,6 +39,13 @@ class StudentSerializer(serializers.ModelSerializer):
     user = UserSerializer(required=True)
 
     class Meta:
+        """
+
+        Meta-data for serializer class:
+        model - Database Model to serialize
+        fields - Fields we want to serialize in the model
+        """
+
         model = Student
         fields = [
             "id", "first_name", "last_name", "city", "state", "level", "user"
