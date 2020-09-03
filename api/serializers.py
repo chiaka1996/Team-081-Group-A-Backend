@@ -7,8 +7,10 @@ from .models import Student
 
 
 class UserSerializer(serializers.ModelSerializer):
+    """
 
-    """Serializer for User model"""
+    Serializer for User model
+    """
 
     class Meta:
         """
@@ -33,8 +35,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    """
 
-    """Serializer for Student model"""
+    Serializer for Student model
+    """
 
     user = UserSerializer(required=True)
 
@@ -61,7 +65,7 @@ class StudentSerializer(serializers.ModelSerializer):
         user = UserSerializer.create(
             UserSerializer(), validated_data=user_data)
 
-        student, created = Student.objects.update_or_create(
+        student, _ = Student.objects.update_or_create(
             user=user,
             **student_data
         )

@@ -13,6 +13,8 @@ class Student(models.Model):
     level = models.CharField(max_length=60)
 
     def __str__(self):
-        """String representation of student model"""
+        """
 
+        String representation of student model
+        """
         return "<Student: {}>".format(self.first_name)
