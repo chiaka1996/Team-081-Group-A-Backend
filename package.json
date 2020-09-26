@@ -1,0 +1,26 @@
+{
+  "name": "team-081-group-a-backend",
+  "version": "1.0.0",
+  "description": "backend repo form team-081\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dsitory for team-081",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BuildForSDGCohort2/Team-081-Group-A-Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BuildForSDGCohort2/Team-081-Group-A-Backend/issues"
+  },
+  "homepage": "https://github.com/BuildForSDGCohort2/Team-081-Group-A-Backend#readme",
+  "dependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "engines":{
+    "node": "13.8.0"
+  }
+}
