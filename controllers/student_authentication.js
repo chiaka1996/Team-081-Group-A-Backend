@@ -94,3 +94,50 @@ exports.student_signup = (req, res) => {
 }
     
    }
+
+   exports.studentLogin = (req, res) => {
+
+    const { email, password } = req.body;
+  
+    student_signup_models.findOne({ email }).then(
+      (user) => {
+  
+        if (!user) {
+          return res.status(201).json({ message: 'email and password do not match' });
+        } 
+  
+        bcrypt.compare(password, user.password).then(
+          (valid) => {
+  
+            if (!valid) {
+  
+              return res.status(201).json({ message: 'email and password do not match' });
+            }
+  
+            const token = jwt.sign(
+              { userId: user._id },
+              'RANDOM_TOKEN_SECRET_NUMBER',
+              { expiresIn: '24h' }
+            );
+  
+            res.status(200).json({
+              _id : user._id,
+              email: user.email,
+              password: user.password,
+              firstname: user.firstname,
+              lastname: user.lastname, 
+              date: user.date,
+              phone: user.phone,
+              gender: user.gender,
+              state: user.state,
+              education_level: user.educatin_level,
+              token,
+              message: 'user logged in'
+            });
+          }
+        ).catch((err) => res.status(400).json(`Error: ${err}`));
+      }
+    ).catch((err) => res.status(400).json(`Error: ${err}`));
+  
+  
+  };
