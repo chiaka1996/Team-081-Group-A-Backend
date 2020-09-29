@@ -1,5 +1,4 @@
-// import {emailValidator, nameValidator, passwordValidator, phoneValidator} from "../validator";
-let validation = require("./validator");
+const validation = require("../middlewares/validator");
 
 let emailValidator = validation.emailValidator;
 
@@ -25,6 +24,7 @@ exports.student_signup = (req, res) => {
 
    if(!email || !password || !firstname || !lastname || !date || !phone || !gender || !state || !education_level ) {
        errorArray.push("please fill all fields");
+       res.status(201).json({errorArray});
    }
    else{
 
