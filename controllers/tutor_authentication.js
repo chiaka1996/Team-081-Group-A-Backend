@@ -1,4 +1,4 @@
-const cloudinary = require("cloudinary").v2;
+const cloudinary= require("cloudinary").v2;
 
 cloudinary.config({
     cloud_name: process.env.CLOUD_NAME,
@@ -6,38 +6,34 @@ cloudinary.config({
     api_secret: process.env.API_SECRET
 });
 
-const validation = require("../middlewares/validator");
+const validation= require("../middlewares/validator");
 
-const emailValidator = validation.emailValidator;
+const emailValidator= validation.emailValidator;
 
-const nameValidator = validation.nameValidator;
+const nameValidator= validation.nameValidator;
 
-const passwordValidator = validation.passwordValidator;
+const passwordValidator= validation.passwordValidator;
 
-const phoneValidator = validation.phoneValidator;
+const phoneValidator= validation.phoneValidator;
 
-const experienceValidator = validation.experienceValidator;
+const experienceValidator= validation.experienceValidator;
 
-const fileValidator = validation.fileValidator;
+const fileValidator= validation.fileValidator;
 
-const bcrypt = require("bcrypt");
+const bcrypt= require("bcrypt");
 
-const jwt = require("jsonwebtoken");
+const jwt= require("jsonwebtoken");
 
-const tutor_signup_models = require("../models/tutor_authentication");
+const Tutor_signup_models = require("../models/tutor_authentication");
 
 let errorArray = [];
 
 exports.tutor_signup = (req, res) => {   
      const file = req.files == null ? false : req.files.file;
-
-     console.log(file);
-
-     console.log(req.body);
     
     const {email, password, firstname, lastname, date, phone, gender, state, education_level, experience, job} = req.body; 
 
-    if(!email || !password || !firstname || !lastname || !date || !phone || !gender || file==false || !state || !education_level || !experience || !job) {
+    if(!email || !password || !firstname || !lastname || !date || !phone || !gender || file===false || !state || !education_level || !experience || !job) {
         errorArray.push("please fill all fields");
         res.status(201).json({errorArray});
     }
@@ -47,11 +43,11 @@ exports.tutor_signup = (req, res) => {
         }
 
         if (!emailValidator(email)) {
-            errorArray.push('please input the correct email');
+            errorArray.push("please input the correct email");
           }
     
           if(!passwordValidator(password)){
-            errorArray.push('password should be 7 or more characters');
+            errorArray.push("password should be 7 or more characters");
           }
     
         if(!nameValidator(lastname)){
@@ -71,10 +67,10 @@ exports.tutor_signup = (req, res) => {
         }
 
         // check if email already exists
-    tutor_signup_models.findOne({ email }).then(
+    Tutor_signup_models.findOne({ email }).then(
         (emailCheck) => {
           if (emailCheck) {
-             errorArray.push('email already exists');
+             errorArray.push("email already exists");
             }
     
           if (errorArray.length > 0) {
@@ -83,12 +79,11 @@ exports.tutor_signup = (req, res) => {
           }
 
              cloudinary.uploader.upload(file.tempFilePath, (err, result) => {
-                console.log(result)
                 //hash the password
                 bcrypt.hash(password, 10).then(
                     (hash) => {
             
-                      const tutor_profile = new tutor_signup_models({
+                      const tutor_profile = new Tutor_signup_models({
                         email, 
                         password: hash,
                         firstname, 
@@ -104,7 +99,7 @@ exports.tutor_signup = (req, res) => {
                       });
                       
                       tutor_profile.save()
-                        .then(() => res.json('user registered'))
+                        .then(() => res.json("user registered"))
                         .catch((errs) => res.status(400).json(`Error: ${errs}`));
             
                     }
@@ -119,4 +114,56 @@ exports.tutor_signup = (req, res) => {
     }
     
 };
+
+   //student login route
+   exports.tutorLogin = (req, res) => {
+
+    const { email, password } = req.body;
+  
+     Tutor_signup_models.findOne({ email }).then(
+      (user) => {
+  
+        if (!user) {
+          return res.status(201).json({ message: "email and password do not match" });
+        } 
+  
+        bcrypt.compare(password, user.password).then(
+          (valid) => {
+  
+            if (!valid) {
+  
+              return res.status(201).json({ message: "email and password do not match" });
+            }
+  
+            const token = jwt.sign(
+              { userId: user._id },
+              "RANDOM_TOKEN_SECRET_NUMBER",
+              { expiresIn: "24h" }
+            );
+  
+            res.status(200).json({
+              _id : user._id,
+              email: user.email,
+              password: user.password,
+              firstname: user.firstname,
+              lastname: user.lastname, 
+              date: user.date,
+              phone: user.phone,
+              gender: user.gender,
+              state: user.state,
+              education_level: user.educatin_level,
+              token,
+              experience: user.experience,
+              job: user.job,
+              certification_url: user.certification_url,
+              message: "user logged in"
+            });
+          }
+        ).catch((err) => res.status(400).json(`Error: ${err}`));
+      }
+    ).catch((err) => res.status(400).json(`Error: ${err}`));
+  
+  
+  };
+
  
