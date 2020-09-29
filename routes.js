@@ -10,4 +10,6 @@ router.post("/student_login", student_authentication.studentLogin);
 
 router.post("/tutor_profile", tutor_authentication.tutor_signup);
 
+router.post("/tutor_login", tutor_authentication.tutorLogin);
+
 module.exports= router;
