@@ -23,6 +23,7 @@ exports.student_signup= (req, res) => {
    if(!email || !password || !firstname || !lastname || !date || !phone || !gender || !state || !education_level ) {
        errorArray.push("please fill all fields");
        res.status(201).json({errorArray});
+
    }
    else{
 
@@ -35,7 +36,7 @@ exports.student_signup= (req, res) => {
     }
 
     if (!emailValidator(email)) {
-      errorArray.push("please input the correct email");
+      errorArray.push("invalid email");
     }
 
     if(!passwordValidator(password)){
@@ -49,6 +50,7 @@ exports.student_signup= (req, res) => {
     // check if email already exists
     Student_signup_models.findOne({ email }).then(
     (emailCheck) => {
+
       if (emailCheck) {
 
         errorArray.push("email already exists");
