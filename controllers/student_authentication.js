@@ -31,7 +31,15 @@ exports.student_signup= (req, res) => {
     }
 
     if(!nameValidator(lastname)){
-        errorArray.push("incorrect name");
+        errorArray.push("incorrect lastname");
+    }
+    
+    if (!emailValidator(email)) {
+      errorArray.push("please input the correct email");
+    }
+
+    if(!passwordValidator(password)){
+      errorArray.push("password should be 7 or more characters");
     }
 
     if(phoneValidator(phone)){
@@ -44,15 +52,7 @@ exports.student_signup= (req, res) => {
       if (emailCheck) {
 
         errorArray.push("email already exists");
-
-      }
-
-      if (!emailValidator(email)) {
-        errorArray.push("please input the correct email");
-      }
-
-      if(!passwordValidator(password)){
-        errorArray.push("password should be 7 or more characters");
+        return;
       }
 
       if (errorArray.length > 0) {
@@ -77,7 +77,9 @@ exports.student_signup= (req, res) => {
           });
           
           student_profile.save()
-            .then(() => res.json('user registered'))
+            .then(() => {
+              res.status(200).json('user registered')
+            })
             .catch((err) => res.status(400).json(`Error: ${err}`));
 
         }
