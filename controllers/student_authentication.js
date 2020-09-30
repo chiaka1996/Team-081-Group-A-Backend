@@ -18,11 +18,14 @@ let errorArray= [];
 
 exports.student_signup= (req, res) => {
 
+  errorArray = [];
+
    const {email, password, firstname, lastname, date, phone, gender, state, education_level} = req.body; 
 
    if(!email || !password || !firstname || !lastname || !date || !phone || !gender || !state || !education_level ) {
        errorArray.push("please fill all fields");
        res.status(201).json({errorArray});
+
    }
    else{
 
@@ -31,7 +34,15 @@ exports.student_signup= (req, res) => {
     }
 
     if(!nameValidator(lastname)){
-        errorArray.push("incorrect name");
+        errorArray.push("incorrect lastname");
+    }
+
+    if (!emailValidator(email)) {
+      errorArray.push("invalid email");
+    }
+
+    if(!passwordValidator(password)){
+      errorArray.push("password should be 7 or more characters");
     }
 
     if(phoneValidator(phone)){
@@ -41,18 +52,11 @@ exports.student_signup= (req, res) => {
     // check if email already exists
     Student_signup_models.findOne({ email }).then(
     (emailCheck) => {
+      
       if (emailCheck) {
 
         errorArray.push("email already exists");
-
-      }
-
-      if (!emailValidator(email)) {
-        errorArray.push("please input the correct email");
-      }
-
-      if(!passwordValidator(password)){
-        errorArray.push("password should be 7 or more characters");
+        
       }
 
       if (errorArray.length > 0) {
@@ -64,7 +68,7 @@ exports.student_signup= (req, res) => {
       bcrypt.hash(password, 10).then(
         (hash) => {
 
-          const student_profile = new Student_signup_models({
+          const studentProfile = new Student_signup_models({
             email, 
             password : hash,
             firstname, 
@@ -76,8 +80,10 @@ exports.student_signup= (req, res) => {
             education_level
           });
           
-          student_profile.save()
-            .then(() => res.json('user registered'))
+          studentProfile.save()
+            .then(() => {
+              res.status(200).json('user registered')
+            })
             .catch((err) => res.status(400).json(`Error: ${err}`));
 
         }
