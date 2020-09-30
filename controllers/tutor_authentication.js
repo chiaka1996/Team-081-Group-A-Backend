@@ -29,6 +29,7 @@ const Tutor_signup_models = require("../models/tutor_authentication");
 let errorArray = [];
 
 exports.tutor_signup = (req, res) => {   
+       errorArray = [];
      const file = req.files == null ? false : req.files.file;
     
     const {email, password, firstname, lastname, date, phone, gender, state, education_level, experience, job} = req.body; 

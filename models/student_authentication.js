@@ -1,8 +1,8 @@
 const mongoose= require("mongoose");
 
-const Student_registration= mongoose.Schema;
+const Student_profile= mongoose.Schema;
 
-const student_model =  new Student_registration({
+const student_model =  new Student_profile({
     email: {type: String, required: true},
     password: {type: String, required: true},
     firstname: {type: String, required: true},
