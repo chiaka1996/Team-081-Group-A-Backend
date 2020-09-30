@@ -33,7 +33,7 @@ exports.student_signup= (req, res) => {
     if(!nameValidator(lastname)){
         errorArray.push("incorrect lastname");
     }
-    
+
     if (!emailValidator(email)) {
       errorArray.push("please input the correct email");
     }
@@ -52,7 +52,7 @@ exports.student_signup= (req, res) => {
       if (emailCheck) {
 
         errorArray.push("email already exists");
-        return;
+        
       }
 
       if (errorArray.length > 0) {
