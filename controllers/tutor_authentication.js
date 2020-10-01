@@ -30,14 +30,17 @@ let errorArray = [];
 
 exports.tutor_signup = (req, res) => {   
        errorArray = [];
+       
      const file = req.files == null ? false : req.files.file;
     
-    const {email, password, firstname, lastname, date, phone, gender, state, education_level, experience, job} = req.body; 
+    const {email, password, firstname, lastname, date, phone, gender, state, education_level, experience, job} = req.body;
 
     if(!email || !password || !firstname || !lastname || !date || !phone || !gender || file===false || !state || !education_level || !experience || !job) {
-        errorArray.push("please fill all fields");
-        res.status(201).json({errorArray});
+        
+      errorArray.push("please fill all fields");
+      res.status(201).json({errorArray});
     }
+
     else{
         if(!nameValidator(firstname)){
             errorArray.push("incorrect name");
@@ -116,7 +119,7 @@ exports.tutor_signup = (req, res) => {
     
 };
 
-   //student login route
+   //tutor login route
    exports.tutorLogin = (req, res) => {
 
     const { email, password } = req.body;
