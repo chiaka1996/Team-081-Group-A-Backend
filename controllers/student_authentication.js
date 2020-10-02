@@ -101,7 +101,7 @@ exports.student_signup= (req, res) => {
 
     const { email, password } = req.body;
   
-    student_signup_models.findOne({ email }).then(
+    Student_signup_models.findOne({ email }).then(
       (user) => {
   
         if (!user) {
